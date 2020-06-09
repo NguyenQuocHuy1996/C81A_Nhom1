@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Thương hiệu">
+        <menu>
+            <item android:title="Addias"></item>
+            <item android:title="Nike"></item>
+            <item android:title="Balenciaga"></item>
+            <item android:title="Rick Owen"></item>
+            <item android:title="New Balance"></item>
+            <item android:title="Converse"></item>
+        </menu>
+    </item>
+    <item android:title="Giới thiệu"></item>
+    <item android:title="Liên hệ"></item>
+</menu>
