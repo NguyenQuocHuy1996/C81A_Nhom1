@@ -1,6 +1,8 @@
 package com.example.quochuy.myadapter;
 
 import android.content.Context;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,9 +42,11 @@ public class ProductAdapter extends BaseAdapter {
         return 0;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        DummyData dummy = new DummyData();
 
         convertView = inflater.inflate(layout, null);
 
@@ -51,14 +55,20 @@ public class ProductAdapter extends BaseAdapter {
         TextView price = (TextView) convertView.findViewById(R.id.txtPrice);
         TextView sale_price = (TextView) convertView.findViewById(R.id.txtSalePrice);
         ImageView img = (ImageView) convertView.findViewById(R.id.imgviewImage);
+        ImageView imgOnSale = (ImageView) convertView.findViewById(R.id.imgviewOnSale);
         Button btnAdd = (Button) convertView.findViewById(R.id.btnAdd);
 
         /// Gán giá trị
         Product product = productList.get(position);
 
         title.setText(product.getTitle());
-        price.setText(String.valueOf(product.getPrice()));
-        sale_price.setText(String.valueOf(product.getSale_price()));
+        if (product.getSale_price() > 0 ) {
+            price.setText(String.valueOf(dummy.formatCurrency(product.getPrice())));
+            sale_price.setText(String.valueOf(dummy.formatCurrency(product.getSale_price())));
+            imgOnSale.setImageResource(R.drawable.sale);
+        } else {
+            sale_price.setText(String.valueOf(dummy.formatCurrency(product.getPrice())));
+        }
         img.setImageResource(product.getImage());
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override

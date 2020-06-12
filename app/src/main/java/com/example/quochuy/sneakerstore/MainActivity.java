@@ -1,10 +1,6 @@
 package com.example.quochuy.sneakerstore;
 import com.example.quochuy.myadapter.ProductViewPagerAdapter;
-import com.example.quochuy.sneakerstore.R;
 import com.example.quochuy.myadapter.Product;
-import com.example.quochuy.myadapter.ProductAdapter;
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -13,14 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TableLayout;
 import android.widget.TextView;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -67,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void mapView() {
-        viewPager = findViewById(R.id.viewPager);
+        viewPager = findViewById(R.id.viewPagerProduct);
         tabLayout = findViewById(R.id.tabLayout);
         llQuantity = findViewById(R.id.llQuantity);
         tvQuantity = findViewById(R.id.tvQuantity);

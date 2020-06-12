@@ -1,62 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
-    android:padding="8dp">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
-    android:background="#008577">
-    <ImageView
-        android:id="@+id/imgviewImage"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:paddingTop="8dp"
-        />
-    <TextView
-        android:id="@+id/txtTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Product 01"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:padding="10dp"
-        />
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp"
+    android:paddingBottom="8dp"
+    >
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:paddingLeft="8dp"
-        android:paddingRight="12dp"
-        >
-        <TextView
-            android:id="@+id/txtPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textSize="13sp"
-            android:textColor="#dd4d4d"
-            />
-        <TextView
-            android:id="@+id/txtSalePrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textSize="15sp"
-            />
-    </LinearLayout>
+        android:background="@drawable/shape">
+        <RelativeLayout
+            android:id="@+id/rlImage"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingBottom="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+            <ImageView
+                android:id="@+id/imgviewImage"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_alignParentLeft="true" />
 
-    <Button android:id="@+id/btnAdd" android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Thêm vào giỏ hàng">
-    </Button>
-</LinearLayout>
-</LinearLayout>
+            <ImageView
+                android:id="@+id/imgviewOnSale"
+                android:layout_width="45dp"
+                android:layout_height="40dp" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:padding="10dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#131313"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:background="#fff"
+            app:layout_constraintTop_toBottomOf="@id/rlImage"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <RelativeLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#fff"
+            app:layout_constraintTop_toBottomOf="@id/txtTitle"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="10dp"
+                >
+                <TextView
+                    android:id="@+id/txtSalePrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#d36567"
+                    android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/txtPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:textColor="#707070"
+                    android:textSize="12sp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/strike"/>
+            </LinearLayout>
+            <Button
+                android:id="@+id/btnAdd"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@color/colorSemiPrimary"
+                android:drawablePadding="12dp"
+                android:text="Add"
+                android:textColor="#fff"
+                android:textSize="12dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                >
+            </Button>
+        </RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
+</RelativeLayout>

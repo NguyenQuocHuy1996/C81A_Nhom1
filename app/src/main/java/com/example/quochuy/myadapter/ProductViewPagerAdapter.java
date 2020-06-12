@@ -19,22 +19,26 @@ public class ProductViewPagerAdapter extends FragmentPagerAdapter {
         Fragment fragment = null;
         if (i == 0)
         {
-            fragment = ProductFragment.newInstance(Product.SNEAKER);
+            fragment = ProductFragment.newInstance(Product.ADIDAS);
         }
         else if (i == 1)
         {
-            fragment = ProductFragment.newInstance(Product.SHIRT);
+            fragment = ProductFragment.newInstance(Product.NIKE);
         }
         else if (i == 2)
         {
-            fragment = ProductFragment.newInstance(Product.PAN);
+            fragment = ProductFragment.newInstance(Product.CONVERSE);
+        }
+        else if (i == 3)
+        {
+            fragment = ProductFragment.newInstance(Product.BALENCIAGA);
         }
         return fragment;
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return 4;
     }
 
     @Nullable
@@ -43,15 +47,19 @@ public class ProductViewPagerAdapter extends FragmentPagerAdapter {
         String title = null;
         if (position == 0)
         {
-            title = "Giày";
+            title = Product.ADIDAS;
         }
         else if (position == 1)
         {
-            title = "Áo";
+            title = Product.NIKE;
         }
         else if (position == 2)
         {
-            title = "Quần";
+            title = Product.CONVERSE;
+        }
+        else if (position == 3)
+        {
+            title = Product.BALENCIAGA;
         }
         return title;
     }
