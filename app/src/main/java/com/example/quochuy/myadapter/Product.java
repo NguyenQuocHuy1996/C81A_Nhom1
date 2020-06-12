@@ -1,6 +1,10 @@
 package com.example.quochuy.myadapter;
 
 public class Product {
+    public static final String SNEAKER = "SNEAKER";
+    public static final String SHIRT = "SHIRT";
+    public static final String PAN = "PAN";
+
     private String title;
     private int price;
     private int sale_price;
