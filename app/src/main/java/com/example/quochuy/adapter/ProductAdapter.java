@@ -1,5 +1,6 @@
-package com.example.quochuy.myadapter;
+package com.example.quochuy.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -7,9 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.quochuy.common.DummyData;
+import com.example.quochuy.common.Helper;
+import com.example.quochuy.obj.Product;
 import com.example.quochuy.sneakerstore.R;
 
 import java.util.List;
@@ -42,11 +47,13 @@ public class ProductAdapter extends BaseAdapter {
         return 0;
     }
 
+    @SuppressLint("ViewHolder")
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         DummyData dummy = new DummyData();
+        Helper helper = new Helper();
 
         convertView = inflater.inflate(layout, null);
 
@@ -56,18 +63,18 @@ public class ProductAdapter extends BaseAdapter {
         TextView sale_price = (TextView) convertView.findViewById(R.id.txtSalePrice);
         ImageView img = (ImageView) convertView.findViewById(R.id.imgviewImage);
         ImageView imgOnSale = (ImageView) convertView.findViewById(R.id.imgviewOnSale);
-        Button btnAdd = (Button) convertView.findViewById(R.id.btnAdd);
+        ImageButton btnAdd = (ImageButton) convertView.findViewById(R.id.btnAdd);
 
         /// Gán giá trị
         Product product = productList.get(position);
 
         title.setText(product.getTitle());
         if (product.getSale_price() > 0 ) {
-            price.setText(String.valueOf(dummy.formatCurrency(product.getPrice())));
-            sale_price.setText(String.valueOf(dummy.formatCurrency(product.getSale_price())));
+            price.setText(String.valueOf(helper.formatCurrency(product.getPrice())));
+            sale_price.setText(String.valueOf(helper.formatCurrency(product.getSale_price())));
             imgOnSale.setImageResource(R.drawable.sale);
         } else {
-            sale_price.setText(String.valueOf(dummy.formatCurrency(product.getPrice())));
+            sale_price.setText(String.valueOf(helper.formatCurrency(product.getPrice())));
         }
         img.setImageResource(product.getImage());
         convertView.setOnClickListener(new View.OnClickListener() {

@@ -1,6 +1,8 @@
-package com.example.quochuy.myadapter;
+package com.example.quochuy.obj;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable {
     public static final String ADIDAS = "ADIDAS";
     public static final String NIKE = "NIKE";
     public static final String CONVERSE = "CONVERSE";

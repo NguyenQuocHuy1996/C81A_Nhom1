@@ -2,6 +2,7 @@ package com.example.quochuy.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,19 +12,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
-import com.example.quochuy.myadapter.DummyData;
-import com.example.quochuy.myadapter.Product;
-import com.example.quochuy.myadapter.ProductAdapter;
-import com.example.quochuy.sneakerstore.MainActivity;
+import com.example.quochuy.adapter.ProductAdapter;
+import com.example.quochuy.common.DummyData;
+import com.example.quochuy.obj.Product;
 import com.example.quochuy.sneakerstore.ProductDetailActivity;
 import com.example.quochuy.sneakerstore.R;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ProductFragment extends Fragment {
-    GridView gvProduct;
-    ArrayList<Product> arrayProduct;
-    ProductAdapter adapter;
+    private GridView gvProduct;
+    private ArrayList<Product> arrayProduct;
+    private ProductAdapter adapter;
 
     public static ProductFragment newInstance(String typeProduct) {
         ProductFragment fragment = new ProductFragment();
@@ -53,7 +54,7 @@ public class ProductFragment extends Fragment {
         if (bundle != null) {
             String typeProduct = bundle.getString("type");
             if (typeProduct == null) return;
-            arrayProduct = new ArrayList<>();
+            arrayProduct = new ArrayList<Product>();
             switch (typeProduct) {
                 case Product.ADIDAS:
                     // data adidas
@@ -83,32 +84,28 @@ public class ProductFragment extends Fragment {
             @Override
             public void onClick(int position) {
                 Intent intent = new Intent(getContext(), ProductDetailActivity.class);
-
-                // Image
-                intent.putExtra("image", arrayProduct.get(position).getImage());
-                // Name
-                intent.putExtra("name", arrayProduct.get(position).getTitle());
-                // Price
-                intent.putExtra("price", arrayProduct.get(position).getPrice());
-                // Sale Price
-                intent.putExtra("sale_price", arrayProduct.get(position).getSale_price());
-                // Brand
-                intent.putExtra("brand", arrayProduct.get(position).getBrand());
-                // Size
-                intent.putExtra("size", arrayProduct.get(position).getSize());
-                // Color
-                intent.putExtra("color", arrayProduct.get(position).getColor());
-                // Description
-                intent.putExtra("des", arrayProduct.get(position).getDescription());
+                Product product = new Product(
+                        arrayProduct.get(position).getTitle(),
+                        arrayProduct.get(position).getPrice(),
+                        arrayProduct.get(position).getSale_price(),
+                        arrayProduct.get(position).getImage(),
+                        arrayProduct.get(position).getCreated_date(),
+                        arrayProduct.get(position).getSize(),
+                        arrayProduct.get(position).getColor(),
+                        arrayProduct.get(position).getBrand(),
+                        arrayProduct.get(position).getDescription()
+                );
+                intent.putExtra("product", product);
 
                 startActivity(intent);
             }
 
             @Override
             public void onAddCart(int position) {
-                MainActivity mainActivity = (MainActivity) getActivity();
-                if (mainActivity != null) {
-                    mainActivity.updateQuantityProduct(arrayProduct.get(position));
+                HomeFragment homeFragment = new HomeFragment();
+                if (homeFragment != null) {
+                    arrayProduct.get(position);
+                    homeFragment.updateQuantityProduct(arrayProduct.get(position));
                 }
             }
         });

@@ -1,87 +1,112 @@
 package com.example.quochuy.sneakerstore;
-import com.example.quochuy.myadapter.ProductViewPagerAdapter;
-import com.example.quochuy.myadapter.Product;
-import android.content.Intent;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
+import android.content.res.Configuration;
+import android.graphics.drawable.ColorDrawable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import java.util.ArrayList;
+
+import com.example.quochuy.fragments.CartFragment;
+import com.example.quochuy.fragments.HomeFragment;
 
 public class MainActivity extends AppCompatActivity {
-    ViewPager viewPager;
-    TabLayout tabLayout;
-    ProductViewPagerAdapter pagerAdapter;
-    LinearLayout llQuantity;
-    TextView tvQuantity;
-
-    ArrayList<Product> listSelectedProduct;
-
+    private ActionBarDrawerToggle drawerToggle;
+    private LinearLayout btnFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /// Custom Action Bar
-        customActionBar();
+        ///
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
+        getSupportActionBar().setTitle("Home");
 
-        /// Ánh xạ
-        mapView();
+        ///
+        DrawerLayout drawerLayout = findViewById(R.id.activity_main_drawer);
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(drawerToggle);
 
-        llQuantity.setOnClickListener(new View.OnClickListener() {
+        ///
+        btnFrag = (LinearLayout) findViewById(R.id.btnGoToCart);
+        btnFrag.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CartDetailActivity.class);
-                startActivity(intent);
+            public void onClick(View view) {
+                addFragment(new CartFragment());
+//                drawerToggle.setDrawerIndicatorEnabled(false);
             }
         });
-
-        pagerAdapter = new ProductViewPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(pagerAdapter);
-        tabLayout.setupWithViewPager(viewPager);
-
-        listSelectedProduct = new ArrayList<>();
+        initFragment();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
-
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void mapView() {
-        viewPager = findViewById(R.id.viewPagerProduct);
-        tabLayout = findViewById(R.id.tabLayout);
-        llQuantity = findViewById(R.id.llQuantity);
-        tvQuantity = findViewById(R.id.tvQuantity);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
+//        switch (item.getItemId()) {
+//            case R.id.search:
+//                Toast.makeText(this, "Search button selected", Toast.LENGTH_SHORT).show();
+//                return true;
+//            case R.id.about:
+//                Toast.makeText(this, "About button selected", Toast.LENGTH_SHORT).show();
+//                return true;
+//            case R.id.help:
+//                Toast.makeText(this, "Help button selected", Toast.LENGTH_SHORT).show();
+//                return true;
+//        }
+
+        return super.onOptionsItemSelected(item);
     }
 
-    private void customActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setLogo(R.drawable.logo);
-        actionBar.setDisplayUseLogoEnabled(true);
-//        actionBar.setTitle("ABC");
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        drawerToggle.syncState();
     }
 
-    public void updateQuantityProduct(Product product) {
-        listSelectedProduct.add(product);
-        if (listSelectedProduct.size() == 0) {
-            llQuantity.setVisibility(View.GONE);
-        } else {
-            llQuantity.setVisibility(View.VISIBLE);
-            tvQuantity.setText(String.valueOf(listSelectedProduct.size()));
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    private void initFragment() {
+        HomeFragment homeFragment = new HomeFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.replace(R.id.container_body, homeFragment);
+        ft.commit();
+    }
+    protected void replaceFragmentContent(Fragment fragment) {
+        if (fragment != null) {
+            FragmentManager fmgr = getSupportFragmentManager();
+            FragmentTransaction ft = fmgr.beginTransaction();
+            ft.replace(R.id.container_body, fragment);
+            ft.commit();
         }
     }
-
-    public ArrayList<Product> getListSelectedProduct() {
-        return this.listSelectedProduct;
+    protected void addFragment(Fragment fragment) {
+        FragmentManager fmgr = getSupportFragmentManager();
+        FragmentTransaction ft = fmgr.beginTransaction();
+        ft.add(R.id.container_body, fragment);
+        ft.addToBackStack(fragment.getClass().getSimpleName());
+        ft.commit();
     }
 }

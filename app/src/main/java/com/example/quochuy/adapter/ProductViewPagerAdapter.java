@@ -1,4 +1,4 @@
-package com.example.quochuy.myadapter;
+package com.example.quochuy.adapter;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.quochuy.fragments.ProductFragment;
+import com.example.quochuy.obj.Product;
 
 public class ProductViewPagerAdapter extends FragmentPagerAdapter {
 
