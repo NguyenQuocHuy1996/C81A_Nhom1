@@ -48,7 +48,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void MapViewAndIntentData() {
-        Product product = (Product) getIntent().getSerializableExtra("product");
+        Product product = getIntent().getParcelableExtra("product");
         // Image
         ImageView image = findViewById(R.id.imgviewImage);
         image.setImageResource(product.getImage());

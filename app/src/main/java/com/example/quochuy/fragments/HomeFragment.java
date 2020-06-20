@@ -1,6 +1,7 @@
 package com.example.quochuy.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,6 +20,8 @@ import com.example.quochuy.adapter.ProductViewPagerAdapter;
 import com.example.quochuy.obj.Product;
 
 import java.util.ArrayList;
+
+import com.example.quochuy.sneakerstore.MainActivity;
 import com.example.quochuy.sneakerstore.R;
 
 public class HomeFragment extends Fragment {
@@ -28,7 +31,7 @@ public class HomeFragment extends Fragment {
     private LinearLayout llQuantity;
     private TextView tvQuantity;
     private FragmentActivity myContext;
-    private ArrayList<Product> listCartItem;
+    private ArrayList<Product> listCartItem = new ArrayList<>();
 
     @Nullable
     @Override
@@ -44,15 +47,17 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        llQuantity.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(com.example.quochuy.sneakerstore.HomeActivity.this, CartDetailActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        llQuantity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent intent = new Intent("OPEN_CART");
+//                myContext.sendBroadcast(intent);
+                MainActivity activity = (MainActivity) getActivity();
+                activity.showCart(listCartItem);
+            }
+        });
         FragmentManager fragManager = myContext.getSupportFragmentManager();
-        pagerAdapter = new ProductViewPagerAdapter(fragManager);
+        pagerAdapter = new ProductViewPagerAdapter(fragManager, this);
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }
@@ -71,7 +76,6 @@ public class HomeFragment extends Fragment {
     }
 
     public void updateQuantityProduct(Product product) {
-        listCartItem = new ArrayList<Product>();
         listCartItem.add(product);
         if (listCartItem.size() == 0) {
             llQuantity.setVisibility(View.GONE);

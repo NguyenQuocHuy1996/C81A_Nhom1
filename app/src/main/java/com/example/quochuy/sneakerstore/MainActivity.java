@@ -1,4 +1,8 @@
 package com.example.quochuy.sneakerstore;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.Fragment;
@@ -15,15 +19,45 @@ import android.widget.LinearLayout;
 
 import com.example.quochuy.fragments.CartFragment;
 import com.example.quochuy.fragments.HomeFragment;
+import com.example.quochuy.obj.Product;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle drawerToggle;
     private LinearLayout btnFrag;
+    private ArrayList<Product> listCartItem;
+
+    private IntentFilter intentFilter = new IntentFilter("OPEN_CART");
+//    private BroadcastReceiver receiver = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            if (intent.getAction() != null && intent.getAction().equals("OPEN_CART")) {
+//                addFragment(new CartFragment());
+//            }
+//        }
+//    };
+
+    public void showCart(ArrayList<Product> listCartItem) {
+        if (listCartItem != null && !listCartItem.isEmpty()) {
+            this.listCartItem = listCartItem;
+        }
+        CartFragment fragment = new CartFragment();
+
+        Bundle bundle = new Bundle();
+
+        bundle.putParcelableArrayList("LIST_CART", listCartItem);
+        fragment.setArguments(bundle);
+
+        addFragment(fragment);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+//        registerReceiver(receiver, intentFilter);
 
         ///
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -41,11 +75,17 @@ public class MainActivity extends AppCompatActivity {
         btnFrag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addFragment(new CartFragment());
+                showCart(MainActivity.this.listCartItem);
 //                drawerToggle.setDrawerIndicatorEnabled(false);
             }
         });
         initFragment();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        unregisterReceiver(receiver);
     }
 
     @Override
@@ -60,17 +100,11 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
-//        switch (item.getItemId()) {
-//            case R.id.search:
-//                Toast.makeText(this, "Search button selected", Toast.LENGTH_SHORT).show();
-//                return true;
-//            case R.id.about:
-//                Toast.makeText(this, "About button selected", Toast.LENGTH_SHORT).show();
-//                return true;
-//            case R.id.help:
-//                Toast.makeText(this, "Help button selected", Toast.LENGTH_SHORT).show();
-//                return true;
-//        }
+        switch (item.getItemId()) {
+            case R.id.cart:
+                showCart(this.listCartItem);
+                return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }

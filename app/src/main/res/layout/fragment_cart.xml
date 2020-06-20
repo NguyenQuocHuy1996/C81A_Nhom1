@@ -4,6 +4,8 @@
     android:layout_height="match_parent"
     android:background="#fff"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
     <LinearLayout
         android:id="@+id/lnCartItem"
         android:layout_width="match_parent"
@@ -118,6 +120,11 @@
 
         </RelativeLayout>
     </LinearLayout>
+
+<!--    <ListView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content" /> -->
+
     <TextView
         android:id="@+id/lbPaymentInfo"
         android:layout_width="match_parent"

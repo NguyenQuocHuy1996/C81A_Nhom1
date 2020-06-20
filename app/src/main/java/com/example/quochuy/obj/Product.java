@@ -1,8 +1,11 @@
 package com.example.quochuy.obj;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
-public class Product implements Serializable {
+public class Product implements Parcelable {
     public static final String ADIDAS = "ADIDAS";
     public static final String NIKE = "NIKE";
     public static final String CONVERSE = "CONVERSE";
@@ -32,6 +35,30 @@ public class Product implements Serializable {
         this.brand = brand;
         this.description = description;
     }
+
+    protected Product(Parcel in) {
+        title = in.readString();
+        price = in.readInt();
+        sale_price = in.readInt();
+        image = in.readInt();
+        created_date = in.readString();
+        size = in.readString();
+        color = in.readString();
+        brand = in.readString();
+        description = in.readString();
+    }
+
+    public static final Creator<Product> CREATOR = new Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel in) {
+            return new Product(in);
+        }
+
+        @Override
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
 
     public String getTitle() {
         return title;
@@ -103,5 +130,23 @@ public class Product implements Serializable {
 
     public void setBrand(String brand) {
         this.brand = brand;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeInt(price);
+        dest.writeInt(sale_price);
+        dest.writeInt(image);
+        dest.writeString(created_date);
+        dest.writeString(size);
+        dest.writeString(color);
+        dest.writeString(brand);
+        dest.writeString(description);
     }
 }

@@ -25,6 +25,7 @@ public class ProductFragment extends Fragment {
     private GridView gvProduct;
     private ArrayList<Product> arrayProduct;
     private ProductAdapter adapter;
+    public HomeFragment homeFragment;
 
     public static ProductFragment newInstance(String typeProduct) {
         ProductFragment fragment = new ProductFragment();
@@ -102,9 +103,7 @@ public class ProductFragment extends Fragment {
 
             @Override
             public void onAddCart(int position) {
-                HomeFragment homeFragment = new HomeFragment();
                 if (homeFragment != null) {
-                    arrayProduct.get(position);
                     homeFragment.updateQuantityProduct(arrayProduct.get(position));
                 }
             }

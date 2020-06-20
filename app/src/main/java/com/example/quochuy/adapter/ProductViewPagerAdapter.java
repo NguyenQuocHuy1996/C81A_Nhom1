@@ -5,19 +5,22 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.example.quochuy.fragments.HomeFragment;
 import com.example.quochuy.fragments.ProductFragment;
 import com.example.quochuy.obj.Product;
 
 public class ProductViewPagerAdapter extends FragmentPagerAdapter {
 
+    private HomeFragment homeFragment;
 
-    public ProductViewPagerAdapter(FragmentManager fm) {
+    public ProductViewPagerAdapter(FragmentManager fm, HomeFragment homeFragment) {
         super(fm);
+        this.homeFragment = homeFragment;
     }
 
     @Override
     public Fragment getItem(int i) {
-        Fragment fragment = null;
+        ProductFragment fragment = null;
         if (i == 0)
         {
             fragment = ProductFragment.newInstance(Product.ADIDAS);
@@ -33,6 +36,9 @@ public class ProductViewPagerAdapter extends FragmentPagerAdapter {
         else if (i == 3)
         {
             fragment = ProductFragment.newInstance(Product.BALENCIAGA);
+        }
+        if (fragment != null) {
+            fragment.homeFragment = homeFragment;
         }
         return fragment;
     }
