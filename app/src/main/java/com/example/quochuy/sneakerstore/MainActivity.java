@@ -1,56 +1,44 @@
 package com.example.quochuy.sneakerstore;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.quochuy.fragments.CartFragment;
-import com.example.quochuy.fragments.HomeFragment;
+import com.example.quochuy.adapter.ProductViewPagerAdapter;
+import com.example.quochuy.obj.CartItem;
 import com.example.quochuy.obj.Product;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle drawerToggle;
-    private LinearLayout btnFrag;
-    private ArrayList<Product> listCartItem;
-
-    private IntentFilter intentFilter = new IntentFilter("OPEN_CART");
-//    private BroadcastReceiver receiver = new BroadcastReceiver() {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            if (intent.getAction() != null && intent.getAction().equals("OPEN_CART")) {
-//                addFragment(new CartFragment());
-//            }
-//        }
-//    };
-
-    public void showCart(ArrayList<Product> listCartItem) {
-        if (listCartItem != null && !listCartItem.isEmpty()) {
-            this.listCartItem = listCartItem;
-        }
-        CartFragment fragment = new CartFragment();
-
-        Bundle bundle = new Bundle();
-
-        bundle.putParcelableArrayList("LIST_CART", listCartItem);
-        fragment.setArguments(bundle);
-
-        addFragment(fragment);
-    }
+    private LinearLayout btnGoToCart;
+    private LinearLayout btnGoToAbout;
+    private LinearLayout btnGoToContact;
+    private LinearLayout btnGoToAdidas;
+    private LinearLayout btnGoToNike;
+    private LinearLayout btnGoToConverse;
+    private LinearLayout btnGoToBalenciaga;
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
+    private ProductViewPagerAdapter pagerAdapter;
+    static LinearLayout llQuantity;
+    static TextView tvQuantity;
+    DrawerLayout drawerLayout;
+    static ArrayList<CartItem> listCartItem = new ArrayList<CartItem>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,27 +47,90 @@ public class MainActivity extends AppCompatActivity {
 
 //        registerReceiver(receiver, intentFilter);
 
-        ///
+        /// Map view
+        mapView();
+
+        /// Custome action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
-        getSupportActionBar().setTitle("Home");
+        getSupportActionBar().setTitle("Sneaker Store");
 
-        ///
-        DrawerLayout drawerLayout = findViewById(R.id.activity_main_drawer);
+        /// Handler Left menu
+        drawerLayout = findViewById(R.id.activity_main_drawer);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(drawerToggle);
 
-        ///
-        btnFrag = (LinearLayout) findViewById(R.id.btnGoToCart);
-        btnFrag.setOnClickListener(new View.OnClickListener() {
+        /// Handler event click left menu item
+        btnGoToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showCart(MainActivity.this.listCartItem);
-//                drawerToggle.setDrawerIndicatorEnabled(false);
+                goToCart();
             }
         });
-        initFragment();
+        btnGoToAbout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+                MainActivity.this.startActivity(intent);
+                drawerLayout.closeDrawer(Gravity.START);
+            }
+        });
+        btnGoToContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ContactActivity.class);
+                MainActivity.this.startActivity(intent);
+                drawerLayout.closeDrawer(Gravity.START);
+            }
+        });
+        btnGoToAdidas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ArchiveActivity.class);
+                intent.putExtra("category",Product.ADIDAS);
+                MainActivity.this.startActivity(intent);
+                drawerLayout.closeDrawer(Gravity.START);
+            }
+        });
+        btnGoToNike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ArchiveActivity.class);
+                intent.putExtra("category",Product.NIKE);
+                MainActivity.this.startActivity(intent);
+                drawerLayout.closeDrawer(Gravity.START);
+            }
+        });
+        btnGoToConverse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ArchiveActivity.class);
+                intent.putExtra("category",Product.CONVERSE);
+                MainActivity.this.startActivity(intent);
+                drawerLayout.closeDrawer(Gravity.START);
+            }
+        });
+        btnGoToBalenciaga.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ArchiveActivity.class);
+                intent.putExtra("category",Product.BALENCIAGA);
+                MainActivity.this.startActivity(intent);
+                drawerLayout.closeDrawer(Gravity.START);
+            }
+        });
+        pagerAdapter = new ProductViewPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(pagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+
+        /// Click cart
+        llQuantity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToCart();
+            }
+        });
     }
 
     @Override
@@ -102,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.cart:
-                showCart(this.listCartItem);
+                goToCart();
                 return true;
         }
 
@@ -121,26 +172,51 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
-    private void initFragment() {
-        HomeFragment homeFragment = new HomeFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction ft = fragmentManager.beginTransaction();
-        ft.replace(R.id.container_body, homeFragment);
-        ft.commit();
-    }
-    protected void replaceFragmentContent(Fragment fragment) {
-        if (fragment != null) {
-            FragmentManager fmgr = getSupportFragmentManager();
-            FragmentTransaction ft = fmgr.beginTransaction();
-            ft.replace(R.id.container_body, fragment);
-            ft.commit();
+    public static void updateQuantityProduct(Product product, Context context) {
+        boolean isFound = false;
+        for(CartItem p : listCartItem){
+            if (p.getId() == product.getId()) {
+                isFound = true;
+                break;
+            }
+        }
+        if (isFound) {
+            Toast.makeText(context, "Sản phẩm đã có trong giỏ hàng !", Toast.LENGTH_SHORT).show();
+        } else {
+            int total = 0;
+            if (product.getSale_price() == 0) {
+                total = product.getPrice();
+            } else {
+                total = product.getSale_price();
+            }
+            CartItem cartItem = new CartItem(product.getId(),product.getTitle(),product.getPrice(),product.getSale_price(),product.getImage(),product.getCreated_date(),product.getSize(),product.getColor(),product.getBrand(),product.getDescription(),1, total);
+            listCartItem.add(cartItem);
+        }
+        if (listCartItem.size() == 0) {
+            llQuantity.setVisibility(View.GONE);
+        } else {
+            llQuantity.setVisibility(View.VISIBLE);
+            tvQuantity.setText(String.valueOf(listCartItem.size()));
         }
     }
-    protected void addFragment(Fragment fragment) {
-        FragmentManager fmgr = getSupportFragmentManager();
-        FragmentTransaction ft = fmgr.beginTransaction();
-        ft.add(R.id.container_body, fragment);
-        ft.addToBackStack(fragment.getClass().getSimpleName());
-        ft.commit();
+
+    private void goToCart() {
+        Intent intent = new Intent(MainActivity.this, CartActivity.class);
+        intent.putParcelableArrayListExtra("list_cart", listCartItem);
+        MainActivity.this.startActivity(intent);
+    }
+
+    private void mapView() {
+        viewPager = findViewById(R.id.viewPagerProduct);
+        tabLayout = findViewById(R.id.tabLayout);
+        llQuantity = findViewById(R.id.llQuantity);
+        tvQuantity = findViewById(R.id.tvQuantity);
+        btnGoToCart = (LinearLayout) findViewById(R.id.btnGoToCart);
+        btnGoToAbout = (LinearLayout) findViewById(R.id.btnGoToAbout);
+        btnGoToContact = (LinearLayout) findViewById(R.id.btnGoToContact);
+        btnGoToAdidas = (LinearLayout) findViewById(R.id.btnGoToAdidas);
+        btnGoToNike = (LinearLayout) findViewById(R.id.btnGoToNike);
+        btnGoToConverse = (LinearLayout) findViewById(R.id.btnGoToConverse);
+        btnGoToBalenciaga = (LinearLayout) findViewById(R.id.btnGoToBalenciaga);
     }
 }

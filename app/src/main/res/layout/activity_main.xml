@@ -7,22 +7,146 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <!-- Main layout -->
-    <FrameLayout
-        android:id="@+id/container_body"
+    <!--    <FrameLayout-->
+    <!--        android:id="@+id/container_body"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        />-->
+
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        android:background="@android:color/white"
+        android:fitsSystemWindows="true">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:background="@android:color/white"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                app:layout_scrollFlags="scroll|snap"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    app:layout_collapseMode="none"
+                    app:layout_collapseParallaxMultiplier="1"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/Banner01"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_marginTop="@dimen/spacing_haft"
+                        android:paddingLeft="@dimen/spacing_haft"
+                        android:paddingRight="@dimen/spacing_haft"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/banner_02" />
+
+                    <LinearLayout
+                        android:id="@+id/lnLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_marginTop="@dimen/spacing_haft"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/spacing_haft"
+                        android:paddingRight="@dimen/spacing_haft"
+
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/Banner01">
+
+                        <ImageView
+                            android:id="@+id/Banner02"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="@dimen/spacing_triple"
+                            android:layout_marginRight="@dimen/spacing_triple"
+                            android:layout_weight="1"
+                            android:scaleType="centerCrop"
+                            app:srcCompat="@drawable/banner_03" />
+
+                        <ImageView
+                            android:id="@+id/Banner03"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/spacing_triple"
+                            android:layout_marginLeft="@dimen/spacing_triple"
+                            android:layout_weight="1"
+                            android:scaleType="centerCrop"
+                            app:srcCompat="@drawable/banner_01" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:tabGravity="fill"
+                app:tabMode="fixed" />
+
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPagerProduct"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            />
+
+        <LinearLayout
+            android:id="@+id/llQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom|right"
+            android:layout_marginRight="@dimen/spacing"
+            android:layout_marginBottom="@dimen/spacing"
+            android:background="@drawable/bg_btn_cart"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/spacing"
+            android:paddingEnd="@dimen/spacing"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/supermarket" />
+
+            <TextView
+                android:id="@+id/tvQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10"
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
     <!-- Left menu -->
     <android.support.design.widget.NavigationView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        android:paddingTop="@dimen/action_bar_height"
         >
         <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/white"
@@ -32,36 +156,141 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/navigation_header_height"
+                android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
                 android:gravity="bottom"
                 android:orientation="vertical"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/spacing"
+                android:paddingLeft="@dimen/spacing"
+                android:paddingRight="@dimen/spacing"
+                android:paddingTop="@dimen/spacing"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
                 <ImageView
                     android:id="@+id/activity_main_imv_avatar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:paddingTop="@dimen/spacing"
                     app:srcCompat="@mipmap/ic_launcher_round" />
-
                 <TextView
                     android:id="@+id/activity_main_tv_user_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/activity_vertical_margin"
-                    android:text="Yellow Code"
+                    android:paddingTop="@dimen/spacing_haft"
+                    android:text="Huy Quoc Nguyen"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
                 <TextView
                     android:id="@+id/activity_main_tv_email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="yellowcode.books@gmail.com" />
+                    android:paddingTop="@dimen/spacing_haft"
+                    android:text="1451010069huy@ou.edu.vn"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+            </LinearLayout>
+
+            <!-- Item Adidas -->
+
+            <LinearLayout
+                android:id="@+id/btnGoToAdidas"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navigation_item_height"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/spacing"
+                android:paddingRight="@dimen/spacing">
+
+                <ImageView
+                    android:layout_width="@dimen/navigation_item_icon_size"
+                    android:layout_height="@dimen/navigation_item_icon_size"
+                    android:src="@drawable/adidas_logo" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="32dp"
+                    android:text="@string/adidas"
+                    android:layout_marginStart="32dp" />
+
+            </LinearLayout>
+
+            <!-- Item Nike -->
+
+            <LinearLayout
+                android:id="@+id/btnGoToNike"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navigation_item_height"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/spacing"
+                android:paddingRight="@dimen/spacing">
+
+                <ImageView
+                    android:layout_width="@dimen/navigation_item_icon_size"
+                    android:layout_height="@dimen/navigation_item_icon_size"
+                    android:src="@drawable/nike_logo" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="32dp"
+                    android:text="@string/nike"
+                    android:layout_marginStart="32dp" />
+
+            </LinearLayout>
+
+            <!-- Item Adidas -->
+
+            <LinearLayout
+                android:id="@+id/btnGoToConverse"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navigation_item_height"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/spacing"
+                android:paddingRight="@dimen/spacing">
+
+                <ImageView
+                    android:layout_width="@dimen/navigation_item_icon_size"
+                    android:layout_height="@dimen/navigation_item_icon_size"
+                    android:src="@drawable/converse_logo" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="32dp"
+                    android:text="@string/converse"
+                    android:layout_marginStart="32dp" />
+
+            </LinearLayout>
+
+            <!-- Item Balenciage -->
+
+            <LinearLayout
+                android:id="@+id/btnGoToBalenciaga"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navigation_item_height"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/spacing"
+                android:paddingRight="@dimen/spacing">
+
+                <ImageView
+                    android:layout_width="@dimen/navigation_item_icon_size"
+                    android:layout_height="@dimen/navigation_item_icon_size"
+                    android:src="@drawable/balenciaga_logo" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="32dp"
+                    android:text="@string/balenciaga"
+                    android:layout_marginStart="32dp" />
 
             </LinearLayout>
 
@@ -74,8 +303,8 @@
                 android:background="@android:color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin">
+                android:paddingLeft="@dimen/spacing"
+                android:paddingRight="@dimen/spacing">
 
                 <ImageView
                     android:layout_width="@dimen/navigation_item_icon_size"
@@ -86,7 +315,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="32dp"
-                    android:text="Cart" />
+                    android:text="@string/menu_cart"
+                    android:layout_marginStart="32dp" />
 
             </LinearLayout>
 
@@ -96,12 +326,12 @@
                 android:id="@+id/btnGoToAbout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/navigation_item_height"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="@dimen/spacing_triple"
                 android:background="@android:color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin">
+                android:paddingLeft="@dimen/spacing"
+                android:paddingRight="@dimen/spacing">
 
                 <ImageView
                     android:layout_width="@dimen/navigation_item_icon_size"
@@ -112,7 +342,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="32dp"
-                    android:text="About" />
+                    android:text="@string/menu_about"
+                    android:layout_marginStart="32dp" />
 
             </LinearLayout>
 
@@ -125,8 +356,8 @@
                 android:background="@android:color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin">
+                android:paddingLeft="@dimen/spacing"
+                android:paddingRight="@dimen/spacing">
 
                 <ImageView
                     android:layout_width="@dimen/navigation_item_icon_size"
@@ -137,7 +368,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="32dp"
-                    android:text="Contact" />
+                    android:text="@string/menu_contact"
+                    android:layout_marginStart="32dp" />
 
             </LinearLayout>
 

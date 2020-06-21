@@ -11,6 +11,7 @@ public class Product implements Parcelable {
     public static final String CONVERSE = "CONVERSE";
     public static final String BALENCIAGA = "BALENCIAGA";
 
+    private int id;
     private String title;
     private int price;
     private int sale_price;
@@ -24,7 +25,8 @@ public class Product implements Parcelable {
     public Product() {};
 
 
-    public Product(String title, int price, int sale_price, int image, String created_date, String size, String color, String brand, String description) {
+    public Product(int id, String title, int price, int sale_price, int image, String created_date, String size, String color, String brand, String description) {
+        this.id = id;
         this.title = title;
         this.price = price;
         this.sale_price = sale_price;
@@ -37,6 +39,7 @@ public class Product implements Parcelable {
     }
 
     protected Product(Parcel in) {
+        id = in.readInt();
         title = in.readString();
         price = in.readInt();
         sale_price = in.readInt();
@@ -59,6 +62,14 @@ public class Product implements Parcelable {
             return new Product[size];
         }
     };
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -139,6 +150,7 @@ public class Product implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeString(title);
         dest.writeInt(price);
         dest.writeInt(sale_price);

@@ -11,8 +11,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.example.quochuy.common.DummyData;
 import com.example.quochuy.common.Helper;
 import com.example.quochuy.obj.Product;
 import com.example.quochuy.sneakerstore.R;
@@ -47,36 +45,50 @@ public class ProductAdapter extends BaseAdapter {
         return 0;
     }
 
+    private class ViewHolder {
+        TextView title, price, sale_price;
+        ImageView img, imgOnSale;
+        ImageButton btnAdd;
+    }
+
     @SuppressLint("ViewHolder")
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        DummyData dummy = new DummyData();
-        Helper helper = new Helper();
+        ViewHolder holder;
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(layout, null);
 
-        convertView = inflater.inflate(layout, null);
+            holder = new ViewHolder();
 
-        /// Ánh xạ
-        TextView title = (TextView) convertView.findViewById(R.id.txtTitle);
-        TextView price = (TextView) convertView.findViewById(R.id.txtPrice);
-        TextView sale_price = (TextView) convertView.findViewById(R.id.txtSalePrice);
-        ImageView img = (ImageView) convertView.findViewById(R.id.imgviewImage);
-        ImageView imgOnSale = (ImageView) convertView.findViewById(R.id.imgviewOnSale);
-        ImageButton btnAdd = (ImageButton) convertView.findViewById(R.id.btnAdd);
+            /// Ánh xạ
+            holder.title = (TextView) convertView.findViewById(R.id.txtTitle);
+            holder.price = (TextView) convertView.findViewById(R.id.txtPrice);
+            holder.sale_price = (TextView) convertView.findViewById(R.id.txtSalePrice);
+            holder.img = (ImageView) convertView.findViewById(R.id.imgviewImage);
+            holder.imgOnSale = (ImageView) convertView.findViewById(R.id.imgviewOnSale);
+            holder.btnAdd = (ImageButton) convertView.findViewById(R.id.btnAdd);
+
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+
 
         /// Gán giá trị
         Product product = productList.get(position);
+        Helper helper = new Helper();
 
-        title.setText(product.getTitle());
+        holder.title.setText(product.getTitle());
         if (product.getSale_price() > 0 ) {
-            price.setText(String.valueOf(helper.formatCurrency(product.getPrice())));
-            sale_price.setText(String.valueOf(helper.formatCurrency(product.getSale_price())));
-            imgOnSale.setImageResource(R.drawable.sale);
+            holder.price.setText(String.valueOf(helper.formatCurrency(product.getPrice())));
+            holder.sale_price.setText(String.valueOf(helper.formatCurrency(product.getSale_price())));
+            holder.imgOnSale.setImageResource(R.drawable.sale);
         } else {
-            sale_price.setText(String.valueOf(helper.formatCurrency(product.getPrice())));
+            holder.sale_price.setText(String.valueOf(helper.formatCurrency(product.getPrice())));
         }
-        img.setImageResource(product.getImage());
+        holder.img.setImageResource(product.getImage());
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,7 +97,7 @@ public class ProductAdapter extends BaseAdapter {
                 }
             }
         });
-        btnAdd.setOnClickListener(new View.OnClickListener() {
+        holder.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (listener != null) {

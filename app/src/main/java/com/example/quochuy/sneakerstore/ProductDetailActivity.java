@@ -6,16 +6,20 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+
 import com.example.quochuy.common.Helper;
 import com.example.quochuy.obj.Product;
-
-import java.io.Serializable;
+import com.example.quochuy.sneakerstore.MainActivity;
+import java.util.ArrayList;
 
 public class ProductDetailActivity extends AppCompatActivity {
-//    Button btnBack;
+    private Button btnAddToCart;
+    private ArrayList<Product> listCartItem = new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -23,20 +27,23 @@ public class ProductDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
 
-        ///
+        /// Custom action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Product");
+        getSupportActionBar().setTitle("Chi tiết sản phẩm");
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
 
         ///
         MapViewAndIntentData();
 
-//        btnBack.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
+
+        btnAddToCart = (Button) findViewById(R.id.btnAddToCart);
+        btnAddToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                MainActivity activity = (MainActivity) MainActivity.this;
+//                activity.showCart(listCartItem);
+            }
+        });
     }
 
     // Handler click back button
@@ -84,7 +91,5 @@ public class ProductDetailActivity extends AppCompatActivity {
         // Description
         TextView des = findViewById(R.id.txtDescription);
         des.setText(product.getDescription());
-
-//        btnBack = findViewById(R.id.btnBack);
     }
 }

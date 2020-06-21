@@ -1,12 +1,12 @@
 package com.example.quochuy.fragments;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,17 +15,15 @@ import android.widget.GridView;
 import com.example.quochuy.adapter.ProductAdapter;
 import com.example.quochuy.common.DummyData;
 import com.example.quochuy.obj.Product;
+import com.example.quochuy.sneakerstore.MainActivity;
 import com.example.quochuy.sneakerstore.ProductDetailActivity;
 import com.example.quochuy.sneakerstore.R;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ProductFragment extends Fragment {
     private GridView gvProduct;
     private ArrayList<Product> arrayProduct;
     private ProductAdapter adapter;
-    public HomeFragment homeFragment;
 
     public static ProductFragment newInstance(String typeProduct) {
         ProductFragment fragment = new ProductFragment();
@@ -35,6 +33,7 @@ public class ProductFragment extends Fragment {
         return fragment;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -86,6 +85,7 @@ public class ProductFragment extends Fragment {
             public void onClick(int position) {
                 Intent intent = new Intent(getContext(), ProductDetailActivity.class);
                 Product product = new Product(
+                        arrayProduct.get(position).getId(),
                         arrayProduct.get(position).getTitle(),
                         arrayProduct.get(position).getPrice(),
                         arrayProduct.get(position).getSale_price(),
@@ -103,16 +103,19 @@ public class ProductFragment extends Fragment {
 
             @Override
             public void onAddCart(int position) {
-                if (homeFragment != null) {
-                    homeFragment.updateQuantityProduct(arrayProduct.get(position));
+                MainActivity mainActivity = (MainActivity) getActivity();
+                if (mainActivity != null) {
+                    mainActivity.updateQuantityProduct(arrayProduct.get(position),getContext());
                 }
             }
         });
         gvProduct.setAdapter(adapter);
+
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void mapView(View view) {
         gvProduct = (GridView) view.findViewById(R.id.gvProduct);
-
+        gvProduct.setNestedScrollingEnabled(true);
     }
 }
