@@ -11,8 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,14 +34,17 @@ public class CartActivity extends AppCompatActivity {
     private static ListView lvCartItem;
     public static ArrayList<CartItem> arrayCart;
     private static TextView txtCartItem;
+    private Button btnPayment;
+    private RadioGroup rdgPaymentMethod;
+    private RadioButton rbPaymentMethod;
+    private RadioGroup rdgCoupon;
+    private RadioButton rbCoupon;
+    private static int coupon_type = 0;
     public static CartItemAdapter adapter;
-    private ImageButton btnMinus;
-
     static TextView temp;
     static TextView feeShip;
     static TextView coupon;
     static TextView total_text;
-
     static CartActivity cartActivity;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -57,16 +63,69 @@ public class CartActivity extends AppCompatActivity {
 
         /// Init data
         showData();
+
+        /// Handler coupon choose
+        handlerCoupon();
+
+        /// Go to payment
+        goToPayment();
+    }
+
+    private void handlerCoupon() {
+        rdgCoupon.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch(checkedId){
+                    case R.id.rdCoupon1:
+                        // do operations specific to this selection
+                        coupon_type = 20;
+                        break;
+                    case R.id.rdCoupon2:
+                        // do operations specific to this selection
+                        coupon_type = 15000;
+                        break;
+                    case R.id.rdCoupon3:
+                        // do operations specific to this selection
+                        coupon_type = 50;
+                        break;
+                    case R.id.rdCoupon4:
+                        // do operations specific to this selection
+                        coupon_type = 15;
+                        break;
+                    default:
+                        coupon_type = 0;
+                        break;
+                }
+                calculator();
+            }
+        });
+    }
+
+    private void goToPayment() {
+        btnPayment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // get selected radio button from radioGroup
+                int selectedPaymentMethod = rdgPaymentMethod.getCheckedRadioButtonId();
+                int selectedCoupon = rdgCoupon.getCheckedRadioButtonId();
+
+                // find the radiobutton by returned id
+                rbPaymentMethod = (RadioButton) findViewById(selectedPaymentMethod);
+                rbCoupon = (RadioButton) findViewById(selectedCoupon);
+            }
+        });
     }
 
     private void mapView() {
         lvCartItem = (ListView) findViewById(R.id.lvCartItem);
-        btnMinus = (ImageButton) findViewById(R.id.btnMinus);
+        btnPayment = (Button) findViewById(R.id.btnPayment);
         txtCartItem = (TextView) findViewById(R.id.txtCartItem);
         temp =  (TextView) findViewById(R.id.txtTemp);
         feeShip =  (TextView) findViewById(R.id.txtFeeShip);
         coupon =  (TextView) findViewById(R.id.txtCoupon);
         total_text =  (TextView) findViewById(R.id.txtTotal);
+        rdgPaymentMethod = (RadioGroup) findViewById(R.id.rdgPaymentInfo);
+        rdgCoupon = (RadioGroup) findViewById(R.id.rdgCoupon);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -105,28 +164,31 @@ public class CartActivity extends AppCompatActivity {
     public static void calculator() {
         long total = 0;
         int fee_ship = 15000;
-        int fee_coupon = 15000;
+        long fee_coupon = 0;
         long final_total = 0;
         if (arrayCart.size() <= 0) {
             lvCartItem.setVisibility(View.GONE);
             txtCartItem.setVisibility(View.VISIBLE);
-            total = 0;
-            fee_ship = 0;
-            fee_coupon = 0;
-            final_total = 0;
+//            total = 0;
+//            fee_ship = 0;
+//            fee_coupon = 0;
+//            final_total = 0;
         } else {
             lvCartItem.setVisibility(View.VISIBLE);
             txtCartItem.setVisibility(View.GONE);
             Helper helper = new Helper();
-            total = 0;
-            fee_ship = 15000;
-            fee_coupon = 15000;
-            final_total = 0;
             for(CartItem c : arrayCart){
                 if (c.getSale_price() == 0) {
                     total += c.getPrice() * c.getQuantity();
                 } else {
                     total += c.getSale_price() * c.getQuantity();
+                }
+            }
+            if (coupon_type != 0){
+                if (coupon_type == 15000) {
+                    fee_coupon = 15000;
+                } else {
+                    fee_coupon = (coupon_type * total) / 100;
                 }
             }
 

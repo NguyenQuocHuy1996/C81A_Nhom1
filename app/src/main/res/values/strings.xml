@@ -22,7 +22,7 @@
     <string name="check_out">Thanh toán</string>
     <string name="payment_info">Thông tin thanh toán: </string>
     <string name="temp">Tạm tính:</string>
-    <string name="fee_ship">Phí giao hàng:</string>
+    <string name="fee_ship">Phí giao hàng (mặc định):</string>
     <string name="coupon">Khuyến mãi:</string>
     <string name="total">Tổng cộng:</string>
     <string name="no_product_in_cart">Không có sản phẩm nào trong giỏ hàng !</string>
@@ -30,4 +30,13 @@
     <string name="nike">Nike</string>
     <string name="converse">Converse</string>
     <string name="balenciaga">Balenciaga</string>
+    <string name="payment_method">Hình thức giao hàng</string>
+    <string name="coupon_info">Mã khuyến mãi</string>
+    <string name="payment_online">Thanh toán online</string>
+    <string name="cod">Thanh toán khi nhận hàng</string>
+    <string name="coupon_1">BALENCIAGAINTERNATIONAL (Giảm 20%)</string>
+    <string name="coupon_2">FREESHIP (Miễn phí giao hàng)</string>
+    <string name="coupon_3">MUAHESOIDONG (Giảm 50%)</string>
+    <string name="coupon_4">CONVERSECLASSIC (Giảm 15% cho sản phẩm Classic)</string>
+    <string name="coupon_5">Không áp dụng coupon</string>
 </resources>
