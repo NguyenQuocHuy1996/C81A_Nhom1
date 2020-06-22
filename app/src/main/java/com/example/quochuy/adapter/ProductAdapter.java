@@ -55,7 +55,7 @@ public class ProductAdapter extends BaseAdapter {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+        final ViewHolder holder;
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(layout, null);
@@ -102,6 +102,7 @@ public class ProductAdapter extends BaseAdapter {
             public void onClick(View v) {
                 if (listener != null) {
                     listener.onAddCart(position);
+//                    holder.btnAdd.setVisibility(View.GONE);
                 }
             }
         });

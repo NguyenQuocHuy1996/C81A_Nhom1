@@ -39,11 +39,14 @@ public class MainActivity extends AppCompatActivity {
     static TextView tvQuantity;
     DrawerLayout drawerLayout;
     static ArrayList<CartItem> listCartItem = new ArrayList<CartItem>();
+    private static Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mContext = this;
 
 //        registerReceiver(receiver, intentFilter);
 
@@ -65,7 +68,8 @@ public class MainActivity extends AppCompatActivity {
         btnGoToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToCart();
+                goToCart(mContext);
+                drawerLayout.closeDrawer(Gravity.START);
             }
         });
         btnGoToAbout.setOnClickListener(new View.OnClickListener() {
@@ -128,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         llQuantity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToCart();
+                goToCart(mContext);
             }
         });
     }
@@ -150,10 +154,9 @@ public class MainActivity extends AppCompatActivity {
         if(drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-
         switch (item.getItemId()) {
             case R.id.cart:
-                goToCart();
+                goToCart(mContext);
                 return true;
         }
 
@@ -191,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
             }
             CartItem cartItem = new CartItem(product.getId(),product.getTitle(),product.getPrice(),product.getSale_price(),product.getImage(),product.getCreated_date(),product.getSize(),product.getColor(),product.getBrand(),product.getDescription(),1, total);
             listCartItem.add(cartItem);
+            Toast.makeText(context, "Sản phẩm được thêm vào giỏ hàng !", Toast.LENGTH_SHORT).show();
         }
         if (listCartItem.size() == 0) {
             llQuantity.setVisibility(View.GONE);
@@ -200,10 +204,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void goToCart() {
-        Intent intent = new Intent(MainActivity.this, CartActivity.class);
+    public static void goToCart(Context context) {
+        Intent intent = new Intent(context, CartActivity.class);
         intent.putParcelableArrayListExtra("list_cart", listCartItem);
-        MainActivity.this.startActivity(intent);
+        context.startActivity(intent);
     }
 
     private void mapView() {

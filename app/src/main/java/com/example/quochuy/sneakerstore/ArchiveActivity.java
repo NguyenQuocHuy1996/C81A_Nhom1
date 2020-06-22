@@ -1,9 +1,12 @@
 package com.example.quochuy.sneakerstore;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,6 +22,7 @@ public class ArchiveActivity extends AppCompatActivity {
     private ArrayList<Product> arrayProduct;
     private ProductAdapter adapter;
 
+    private static Context mContext;
     static LinearLayout llQuantity;
     static TextView tvQuantity;
 
@@ -26,6 +30,7 @@ public class ArchiveActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_archive);
+        mContext = this;
 
         /// Map view
         mapView();
@@ -105,6 +110,22 @@ public class ArchiveActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp(){
         finish();
         return true;
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.cart:
+                MainActivity.goToCart(mContext);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void mapView() {

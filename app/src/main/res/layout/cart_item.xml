@@ -16,14 +16,16 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
-        android:paddingBottom="8dp"
+        android:paddingLeft="@dimen/spacing_haft"
+        android:paddingRight="@dimen/spacing_haft"
+        android:paddingBottom="@dimen/spacing_haft"
+        android:paddingTop="@dimen/spacing_haft"
         >
         <ImageView
             android:id="@+id/imgviewImage"
             android:layout_width="match_parent"
             android:layout_height="90dp"
+            android:background="@color/colorSecondary"
             android:layout_alignParentLeft="true"
             />
     </RelativeLayout>

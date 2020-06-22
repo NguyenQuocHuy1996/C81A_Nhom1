@@ -1,40 +1,32 @@
 package com.example.quochuy.sneakerstore;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.quochuy.adapter.CartItemAdapter;
 import com.example.quochuy.common.Helper;
+import com.example.quochuy.obj.Bill;
 import com.example.quochuy.obj.CartItem;
 import com.example.quochuy.obj.Product;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-
-import static java.lang.String.valueOf;
 
 public class CartActivity extends AppCompatActivity {
     private static ListView lvCartItem;
     public static ArrayList<CartItem> arrayCart;
     private static TextView txtCartItem;
-    private Button btnPayment;
+    private static Button btnPayment;
     private RadioGroup rdgPaymentMethod;
     private RadioButton rbPaymentMethod;
     private RadioGroup rdgCoupon;
@@ -105,13 +97,36 @@ public class CartActivity extends AppCompatActivity {
         btnPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // get selected radio button from radioGroup
+                /// Get Payment Method text
                 int selectedPaymentMethod = rdgPaymentMethod.getCheckedRadioButtonId();
-                int selectedCoupon = rdgCoupon.getCheckedRadioButtonId();
-
-                // find the radiobutton by returned id
                 rbPaymentMethod = (RadioButton) findViewById(selectedPaymentMethod);
-                rbCoupon = (RadioButton) findViewById(selectedCoupon);
+                Helper helper = new Helper();
+                Intent intent = new Intent(getApplicationContext(), CustomerInfoActivity.class);
+//                /// Using object
+//                Bill bill = new Bill(
+//                        temp.getText().toString(),
+//                        feeShip.getText().toString(),
+//                        coupon.getText().toString(),
+//                        total_text.getText().toString(),
+//                        rbPaymentMethod.getText().toString(),
+//                        "",
+//                        "",
+//                        "",
+//                        helper.getCurrentDateTime()
+//
+//                );
+//                intent.putExtra("bill", bill);
+
+                /// Unuse Object
+                intent.putExtra("temp", temp.getText().toString());
+                intent.putExtra("feeShip", feeShip.getText().toString());
+                intent.putExtra("coupon", coupon.getText().toString());
+                intent.putExtra("total_text", total_text.getText().toString());
+                intent.putExtra("rbPaymentMethod", rbPaymentMethod.getText().toString());
+                intent.putExtra("created_date", helper.getCurrentDateTime());
+
+                intent.putParcelableArrayListExtra("list_cart", arrayCart);
+                startActivity(intent);
             }
         });
     }
@@ -168,6 +183,7 @@ public class CartActivity extends AppCompatActivity {
         long final_total = 0;
         if (arrayCart.size() <= 0) {
             lvCartItem.setVisibility(View.GONE);
+            btnPayment.setVisibility(View.GONE);
             txtCartItem.setVisibility(View.VISIBLE);
 //            total = 0;
 //            fee_ship = 0;
@@ -175,6 +191,7 @@ public class CartActivity extends AppCompatActivity {
 //            final_total = 0;
         } else {
             lvCartItem.setVisibility(View.VISIBLE);
+            btnPayment.setVisibility(View.VISIBLE);
             txtCartItem.setVisibility(View.GONE);
             Helper helper = new Helper();
             for(CartItem c : arrayCart){
@@ -202,37 +219,37 @@ public class CartActivity extends AppCompatActivity {
     }
 
 
-    public static void CatchOnItemListView() {
-        lvCartItem.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(cartActivity);
-                builder.setTitle("Xác nhận xóa sản phẩm ?");
-                builder.setMessage("Bạn có chắc muốn xóa sản phẩm này ?");
-                builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.N)
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (arrayCart.size() > 0) {
-                            arrayCart.remove(position);
-                            adapter.notifyDataSetChanged();
-                            calculator();
-                        }
-                    }
-                });
-                builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.N)
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        adapter.notifyDataSetChanged();
-                        calculator();
-                    }
-                });
-                builder.show();
-                return true;
-            }
-        });
-    }
+//    public static void CatchOnItemListView() {
+//        lvCartItem.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+//                AlertDialog.Builder builder = new AlertDialog.Builder(cartActivity);
+//                builder.setTitle("Xác nhận xóa sản phẩm ?");
+//                builder.setMessage("Bạn có chắc muốn xóa sản phẩm này ?");
+//                builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+//                    @RequiresApi(api = Build.VERSION_CODES.N)
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        if (arrayCart.size() > 0) {
+//                            arrayCart.remove(position);
+//                            adapter.notifyDataSetChanged();
+//                            calculator();
+//                        }
+//                    }
+//                });
+//                builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+//                    @RequiresApi(api = Build.VERSION_CODES.N)
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        adapter.notifyDataSetChanged();
+//                        calculator();
+//                    }
+//                });
+//                builder.show();
+//                return true;
+//            }
+//        });
+//    }
 
     // Handler click back button
     @Override

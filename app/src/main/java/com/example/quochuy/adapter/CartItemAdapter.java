@@ -11,16 +11,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.quochuy.common.Helper;
 import com.example.quochuy.obj.CartItem;
 import com.example.quochuy.sneakerstore.CartActivity;
-import com.example.quochuy.sneakerstore.MainActivity;
 import com.example.quochuy.sneakerstore.R;
 import java.util.List;
-
-import static com.example.quochuy.sneakerstore.CartActivity.CatchOnItemListView;
 import static java.lang.String.valueOf;
 
 public class CartItemAdapter extends BaseAdapter {
